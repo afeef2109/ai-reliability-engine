@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Reliability Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="ambient ambient-one"></div>
+      <div class="ambient ambient-two"></div>
+      <div class="ambient ambient-three"></div>
+      <div class="grid-overlay"></div>
+      <div class="noise-overlay"></div>
+
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">AI Reliability Tester</p>
+          <h1>AI Reliability Engine</h1>
+          <p class="positioning">
+            Detect unreliable and inconsistent AI outputs before deploying to users.
+          </p>
+          <p class="description">
+            A hardened evaluation surface for prompt teams. Run repeated checks, expose unstable
+            model behavior, and spot failures before users ever see them.
+          </p>
+          <div class="hero-actions">
+            <button id="run-demo-button" class="ghost-button">Run Demo</button>
+            <button id="run-tests-button" class="primary-button">Run All Tests</button>
+          </div>
+          <div class="hero-meta">
+            <span class="hint">Repeat-run consistency</span>
+            <span class="hint">Keyword-aware validation</span>
+            <span class="hint">Reliability scoring</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-frame">
+            <div class="visual-orb visual-orb-large"></div>
+            <div class="visual-orb visual-orb-small"></div>
+            <div class="visual-grid"></div>
+            <div class="signal-card top">
+              <span>Evaluation Loop</span>
+              <strong>Two runs per test case</strong>
+            </div>
+            <div class="signal-card bottom">
+              <span>Decision Layer</span>
+              <strong>Pass, Fail, Inconsistent</strong>
+            </div>
+            <div class="visual-axis visual-axis-horizontal"></div>
+            <div class="visual-axis visual-axis-vertical"></div>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-card">
+              <span>Checks</span>
+              <strong>Prompt + keyword + consistency</strong>
+            </div>
+            <div class="stat-card">
+              <span>Mode</span>
+              <strong>Live API or mock fallback</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="overview-strip">
+        <div class="overview-card">
+          <span>01</span>
+          <strong>Define the system prompt</strong>
+          <p>Set the instruction layer you want the model to follow.</p>
+        </div>
+        <div class="overview-card">
+          <span>02</span>
+          <strong>Add critical test cases</strong>
+          <p>Challenge the model with expected answers and keyword checks.</p>
+        </div>
+        <div class="overview-card">
+          <span>03</span>
+          <strong>Measure reliability before release</strong>
+          <p>Catch fragile responses, drift, and inconsistency early.</p>
+        </div>
+      </section>
+
+      <main class="app-grid">
+        <section class="workspace-panel">
+          <div class="workspace-main">
+            <section class="panel prompt-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="section-kicker">Prompt Setup</p>
+                  <h2>Main Prompt</h2>
+                </div>
+                <p>Define the behavior you want the model to follow across every test.</p>
+              </div>
+              <label class="field-label" for="main-prompt">System Prompt</label>
+              <textarea
+                id="main-prompt"
+                rows="7"
+                placeholder="You are a helpful assistant..."
+              ></textarea>
+            </section>
+
+            <section class="panel cases-panel">
+              <div class="panel-header panel-header-inline">
+                <div>
+                  <p class="section-kicker">Evaluation Suite</p>
+                  <h2>Test Cases</h2>
+                  <p>Add questions and optional expected keywords to validate output quality.</p>
+                </div>
+                <button id="add-test-case-button" class="ghost-button small">Add Test Case</button>
+              </div>
+
+              <div id="test-cases-container" class="test-cases"></div>
+
+              <div class="actions">
+                <div id="loading-indicator" class="loading-indicator hidden">
+                  <span class="spinner"></span>
+                  <span>Running tests...</span>
+                </div>
+              </div>
+              <p id="error-message" class="error-message"></p>
+            </section>
+          </div>
+
+          <aside class="workspace-side">
+            <section class="panel side-panel">
+              <p class="section-kicker">Control Surface</p>
+              <h2>How this engine evaluates</h2>
+              <ul class="info-list">
+                <li>Runs each test twice to detect unstable output.</li>
+                <li>Checks whether expected keywords appear in both runs.</li>
+                <li>Fails short responses and highlights inconsistent answers.</li>
+              </ul>
+            </section>
+
+            <section class="panel side-panel side-panel-accent">
+              <p class="section-kicker">Deployment Guardrail</p>
+              <h2>Built for pre-release QA</h2>
+              <p>
+                Use demo mode for interface walkthroughs and live mode when API access is available.
+              </p>
+            </section>
+          </aside>
+        </section>
+
+        <section class="panel results-panel">
+          <div class="panel-header panel-header-inline">
+            <div>
+              <p class="section-kicker">Results</p>
+              <h2>Results</h2>
+              <p>Each case runs twice to surface unstable responses before launch.</p>
+            </div>
+            <div id="reliability-score" class="score-card hidden">Reliability Score: 0%</div>
+          </div>
+          <div id="mode-notice" class="mode-notice hidden"></div>
+
+          <div class="results-table-shell">
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th>Test Case</th>
+                  <th>AI Output</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="results-body">
+                <tr class="empty-state-row">
+                  <td colspan="3">Run a demo or add your own tests to see reliability results.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="test-case-template">
+      <div class="test-case-card">
+        <div class="test-case-row">
+          <div class="field">
+            <label>Question</label>
+            <input type="text" data-field="question" placeholder="What is the capital of France?" />
+          </div>
+          <div class="field">
+            <label>Expected Keyword(s)</label>
+            <input type="text" data-field="expectedKeywords" placeholder="Paris" />
+          </div>
+          <button type="button" class="remove-button" data-remove>Remove</button>
+        </div>
+      </div>
+    </template>
+
+    <script src="/script.js" defer></script>
+  </body>
+</html>
