@@ -7,13 +7,16 @@ const loadingIndicator = document.getElementById("loading-indicator");
 const errorMessage = document.getElementById("error-message");
 const resultsBody = document.getElementById("results-body");
 const reliabilityScore = document.getElementById("reliability-score");
+const scoreBreakdown = document.getElementById("score-breakdown");
 const modeNotice = document.getElementById("mode-notice");
+const failureShowcase = document.getElementById("failure-showcase");
 const template = document.getElementById("test-case-template");
 
 const demoCases = [
   { question: "What is the capital of France?", expectedKeywords: "Paris" },
   { question: "Solve 2+2", expectedKeywords: "4" },
-  { question: "Name a color of the sky", expectedKeywords: "blue" }
+  { question: "Name a color of the sky", expectedKeywords: "blue" },
+  { question: "Who is the president of Mars?", expectedKeywords: "no one" }
 ];
 
 function createTestCaseCard(values = { question: "", expectedKeywords: "" }) {
@@ -53,14 +56,37 @@ function setLoading(isLoading) {
   addTestCaseButton.disabled = isLoading;
 }
 
+function escapeHtml(value = "") {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function renderRuns(result) {
+  return result.outputs
+    .map(
+      (output, index) => `
+        <div class="output-run">
+          <span class="output-label">Run ${index + 1}</span>
+          <div class="output-text">${escapeHtml(output || "No output returned.")}</div>
+        </div>
+      `
+    )
+    .join("");
+}
+
 function renderResults(results = []) {
   if (results.length === 0) {
     resultsBody.innerHTML = `
       <tr class="empty-state-row">
-        <td colspan="3">Run a demo or add your own tests to see reliability results.</td>
+        <td colspan="5">Run a demo or add your own tests to see reliability results.</td>
       </tr>
     `;
     reliabilityScore.classList.add("hidden");
+    scoreBreakdown.classList.add("hidden");
     return;
   }
 
@@ -76,22 +102,24 @@ function renderResults(results = []) {
           <td>
             <strong>${escapeHtml(result.question)}</strong>
             ${expectedLine}
+            <div class="meta-text consistency-meta">Consistency Score: ${result.consistencyScore}%</div>
           </td>
           <td>
             <div class="output-block">
-              <div class="output-run">
-                <span class="output-label">Run 1</span>
-                <div class="output-text">${escapeHtml(result.output || "No output returned.")}</div>
-              </div>
-              <div class="output-run">
-                <span class="output-label">Run 2</span>
-                <div class="output-text">${escapeHtml(result.outputSecondRun || "No output returned.")}</div>
-              </div>
-              <div class="meta-text">${escapeHtml(result.reason || "")}</div>
+              ${renderRuns(result)}
             </div>
           </td>
           <td>
             <span class="status-badge ${statusClass}">${escapeHtml(result.status)}</span>
+          </td>
+          <td>
+            <div class="reason-cell">
+              <strong>${escapeHtml(result.failureReason)}</strong>
+              <div class="meta-text">${escapeHtml(result.shortReason || result.reason || "")}</div>
+            </div>
+          </td>
+          <td>
+            <div class="meta-text explanation-text">${escapeHtml(result.failureExplanation || result.explanation || "")}</div>
           </td>
         </tr>
       `;
@@ -99,9 +127,61 @@ function renderResults(results = []) {
     .join("");
 }
 
-function updateReliabilityScore(score) {
+function updateReliabilityScore(score, breakdown) {
   reliabilityScore.textContent = `Reliability Score: ${score}%`;
   reliabilityScore.classList.remove("hidden");
+
+  scoreBreakdown.innerHTML = `
+    <div class="breakdown-item">
+      <span>Correct</span>
+      <strong>${breakdown.correct}</strong>
+    </div>
+    <div class="breakdown-item">
+      <span>Failed</span>
+      <strong>${breakdown.failed}</strong>
+    </div>
+    <div class="breakdown-item">
+      <span>Inconsistent</span>
+      <strong>${breakdown.inconsistent}</strong>
+    </div>
+    <div class="breakdown-item">
+      <span>Pass Rate</span>
+      <strong>${breakdown.passRate}%</strong>
+    </div>
+    <div class="breakdown-item">
+      <span>Avg Consistency</span>
+      <strong>${breakdown.averageConsistency}%</strong>
+    </div>
+    <div class="breakdown-item">
+      <span>Severity Penalty</span>
+      <strong>${breakdown.severityPenalty}%</strong>
+    </div>
+  `;
+  scoreBreakdown.classList.remove("hidden");
+}
+
+function updateFailureShowcase(items = []) {
+  if (!items.length) {
+    failureShowcase.innerHTML =
+      '<div class="showcase-empty">No failures detected yet. Run tests to populate this section.</div>';
+    return;
+  }
+
+  failureShowcase.innerHTML = items
+    .map(
+      (item) => `
+        <article class="showcase-card">
+          <div class="showcase-meta">
+            <span class="showcase-label">${escapeHtml(item.failure)}</span>
+            <span class="showcase-status">${escapeHtml(item.status)}</span>
+          </div>
+          <h3>${escapeHtml(item.prompt)}</h3>
+          <p class="showcase-output">${escapeHtml(item.output)}</p>
+          <p class="showcase-explanation">${escapeHtml(item.explanation)}</p>
+        </article>
+      `
+    )
+    .join("");
 }
 
 function updateModeNotice(notice, mode) {
@@ -114,15 +194,6 @@ function updateModeNotice(notice, mode) {
   modeNotice.textContent =
     mode === "mock" ? `${notice} These outputs are simulated for demo/testing use.` : notice;
   modeNotice.classList.remove("hidden");
-}
-
-function escapeHtml(value) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
 }
 
 async function runTests() {
@@ -162,11 +233,13 @@ async function runTests() {
       throw new Error(payload.error || "Failed to run tests.");
     }
 
-    renderResults(payload.results);
-    updateReliabilityScore(payload.reliabilityScore);
+    renderResults(payload.results || []);
+    updateReliabilityScore(payload.reliabilityScore, payload.breakdown);
+    updateFailureShowcase(payload.failureShowcase || []);
     updateModeNotice(payload.notice, payload.mode);
   } catch (error) {
     renderResults([]);
+    updateFailureShowcase([]);
     updateModeNotice("", "");
     errorMessage.textContent =
       error instanceof TypeError
@@ -188,6 +261,7 @@ addTestCaseButton.addEventListener("click", () => createTestCaseCard());
 runTestsButton.addEventListener("click", runTests);
 runDemoButton.addEventListener("click", runDemo);
 
-demoCases.forEach((testCase) => createTestCaseCard(testCase));
+demoCases.slice(0, 3).forEach((testCase) => createTestCaseCard(testCase));
 renderResults([]);
+updateFailureShowcase([]);
 updateModeNotice("", "");

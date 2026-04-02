@@ -23,21 +23,19 @@
       <header class="hero">
         <div class="hero-copy">
           <p class="eyebrow">AI Reliability Tester</p>
-          <h1>AI Reliability Engine</h1>
-          <p class="positioning">
-            Detect unreliable and inconsistent AI outputs before deploying to users.
-          </p>
+          <h1>We detect when AI systems break in real-world scenarios.</h1>
+          <p class="positioning">Hallucinations. Inconsistencies. Hidden failures.</p>
           <p class="description">
-            A hardened evaluation surface for prompt teams. Run repeated checks, expose unstable
-            model behavior, and spot failures before users ever see them.
+            AI Reliability Engine runs the same prompt multiple times, classifies why answers fail,
+            and turns unstable model behavior into clear infrastructure-grade signals.
           </p>
           <div class="hero-actions">
             <button id="run-demo-button" class="ghost-button">Run Demo</button>
             <button id="run-tests-button" class="primary-button">Run All Tests</button>
           </div>
           <div class="hero-meta">
-            <span class="hint">Repeat-run consistency</span>
-            <span class="hint">Keyword-aware validation</span>
+            <span class="hint">Failure intelligence</span>
+            <span class="hint">Consistency engine</span>
             <span class="hint">Reliability scoring</span>
           </div>
         </div>
@@ -48,24 +46,24 @@
             <div class="visual-orb visual-orb-small"></div>
             <div class="visual-grid"></div>
             <div class="signal-card top">
-              <span>Evaluation Loop</span>
-              <strong>Two runs per test case</strong>
+              <span>Failure Intelligence</span>
+              <strong>Why it failed, not just that it failed</strong>
             </div>
             <div class="signal-card bottom">
-              <span>Decision Layer</span>
-              <strong>Pass, Fail, Inconsistent</strong>
+              <span>Consistency Engine</span>
+              <strong>3 runs, pairwise similarity, weighted scoring</strong>
             </div>
             <div class="visual-axis visual-axis-horizontal"></div>
             <div class="visual-axis visual-axis-vertical"></div>
           </div>
           <div class="hero-stats">
             <div class="stat-card">
-              <span>Checks</span>
-              <strong>Prompt + keyword + consistency</strong>
+              <span>System</span>
+              <strong>OpenAI + serverless reliability checks</strong>
             </div>
             <div class="stat-card">
-              <span>Mode</span>
-              <strong>Live API or mock fallback</strong>
+              <span>Detection</span>
+              <strong>Hallucination, incorrect fact, inconsistency, low reasoning</strong>
             </div>
           </div>
         </div>
@@ -74,18 +72,18 @@
       <section class="overview-strip">
         <div class="overview-card">
           <span>01</span>
-          <strong>Define the system prompt</strong>
-          <p>Set the instruction layer you want the model to follow.</p>
+          <strong>Run each test 2–3 times</strong>
+          <p>Measure stability instead of trusting a single lucky response.</p>
         </div>
         <div class="overview-card">
           <span>02</span>
-          <strong>Add critical test cases</strong>
-          <p>Challenge the model with expected answers and keyword checks.</p>
+          <strong>Classify why failure happened</strong>
+          <p>Surface hallucinations, fact errors, inconsistency, and shallow reasoning.</p>
         </div>
         <div class="overview-card">
           <span>03</span>
-          <strong>Measure reliability before release</strong>
-          <p>Catch fragile responses, drift, and inconsistency early.</p>
+          <strong>Score overall reliability</strong>
+          <p>Blend pass rate, consistency, and failure severity into one real metric.</p>
         </div>
       </section>
 
@@ -113,7 +111,7 @@
                 <div>
                   <p class="section-kicker">Evaluation Suite</p>
                   <h2>Test Cases</h2>
-                  <p>Add questions and optional expected keywords to validate output quality.</p>
+                  <p>Add questions and expected keywords to validate output quality.</p>
                 </div>
                 <button id="add-test-case-button" class="ghost-button small">Add Test Case</button>
               </div>
@@ -131,22 +129,20 @@
           </div>
 
           <aside class="workspace-side">
+            <section class="panel side-panel score-panel">
+              <p class="section-kicker">Reliability Score</p>
+              <div id="reliability-score" class="score-card hero-score hidden">Reliability Score: 0%</div>
+              <div id="score-breakdown" class="score-breakdown hidden"></div>
+            </section>
+
             <section class="panel side-panel">
               <p class="section-kicker">Control Surface</p>
               <h2>How this engine evaluates</h2>
               <ul class="info-list">
-                <li>Runs each test twice to detect unstable output.</li>
-                <li>Checks whether expected keywords appear in both runs.</li>
-                <li>Fails short responses and highlights inconsistent answers.</li>
+                <li>Runs each test 3 times to detect unstable behavior.</li>
+                <li>Calculates similarity-based consistency score.</li>
+                <li>Explains why a failure is wrong or unreliable.</li>
               </ul>
-            </section>
-
-            <section class="panel side-panel side-panel-accent">
-              <p class="section-kicker">Deployment Guardrail</p>
-              <h2>Built for pre-release QA</h2>
-              <p>
-                Use demo mode for interface walkthroughs and live mode when API access is available.
-              </p>
             </section>
           </aside>
         </section>
@@ -155,28 +151,42 @@
           <div class="panel-header panel-header-inline">
             <div>
               <p class="section-kicker">Results</p>
-              <h2>Results</h2>
-              <p>Each case runs twice to surface unstable responses before launch.</p>
+              <h2>Failure Intelligence</h2>
+              <p>Every case shows status, reason, explanation, and consistency score.</p>
             </div>
-            <div id="reliability-score" class="score-card hidden">Reliability Score: 0%</div>
           </div>
           <div id="mode-notice" class="mode-notice hidden"></div>
 
           <div class="results-table-shell">
-            <table class="results-table">
+            <table class="results-table advanced-results-table">
               <thead>
                 <tr>
                   <th>Test Case</th>
-                  <th>AI Output</th>
+                  <th>AI Runs</th>
                   <th>Status</th>
+                  <th>Failure Reason</th>
+                  <th>Explanation</th>
                 </tr>
               </thead>
               <tbody id="results-body">
                 <tr class="empty-state-row">
-                  <td colspan="3">Run a demo or add your own tests to see reliability results.</td>
+                  <td colspan="5">Run a demo or add your own tests to see reliability results.</td>
                 </tr>
               </tbody>
             </table>
+          </div>
+        </section>
+
+        <section class="panel failure-showcase-panel">
+          <div class="panel-header">
+            <div>
+              <p class="section-kicker">Real AI Failures Detected</p>
+              <h2>Failure Showcase</h2>
+            </div>
+            <p>These are the most serious issues the engine caught during the latest run.</p>
+          </div>
+          <div id="failure-showcase" class="failure-showcase-grid">
+            <div class="showcase-empty">No failures detected yet. Run tests to populate this section.</div>
           </div>
         </section>
       </main>
