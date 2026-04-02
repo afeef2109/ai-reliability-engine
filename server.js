@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(express.static("."));
 app.use(express.static("public"));
 
 app.post("/api/run-tests", async (req, res) => {

@@ -1,16 +1,3 @@
 {
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/public/index.html"
-    },
-    {
-      "source": "/styles.css",
-      "destination": "/public/styles.css"
-    },
-    {
-      "source": "/script.js",
-      "destination": "/public/script.js"
-    }
-  ]
+  "cleanUrls": true
 }
