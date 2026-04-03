@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -33,6 +33,11 @@
             <button id="run-demo-button" class="ghost-button">Run Demo</button>
             <button id="run-tests-button" class="primary-button">Run All Tests</button>
           </div>
+          <div class="demo-actions">
+            <button id="demo-hallucination-button" class="scenario-button">Test Hallucination</button>
+            <button id="demo-unsafe-button" class="scenario-button">Test Unsafe Output</button>
+            <button id="demo-fact-button" class="scenario-button">Test Wrong Fact</button>
+          </div>
           <div class="hero-meta">
             <span class="hint">Failure intelligence</span>
             <span class="hint">Consistency engine</span>
@@ -63,7 +68,7 @@
             </div>
             <div class="stat-card">
               <span>Detection</span>
-              <strong>Hallucination, incorrect fact, inconsistency, low reasoning</strong>
+              <strong>Hallucination, wrong fact, inconsistency, unsafe output</strong>
             </div>
           </div>
         </div>
@@ -72,7 +77,7 @@
       <section class="overview-strip">
         <div class="overview-card">
           <span>01</span>
-          <strong>Run each test 2–3 times</strong>
+          <strong>Run each test 2-3 times</strong>
           <p>Measure stability instead of trusting a single lucky response.</p>
         </div>
         <div class="overview-card">
@@ -129,6 +134,25 @@
           </div>
 
           <aside class="workspace-side">
+            <section class="panel side-panel dashboard-panel">
+              <p class="section-kicker">Mini Dashboard</p>
+              <h2>Detection Snapshot</h2>
+              <div id="dashboard-stats" class="dashboard-stats">
+                <div class="dashboard-stat">
+                  <span>Total responses checked</span>
+                  <strong>0</strong>
+                </div>
+                <div class="dashboard-stat">
+                  <span>Risky outputs</span>
+                  <strong>0</strong>
+                </div>
+                <div class="dashboard-stat">
+                  <span>Alerts triggered</span>
+                  <strong>0</strong>
+                </div>
+              </div>
+            </section>
+
             <section class="panel side-panel score-panel">
               <p class="section-kicker">Reliability Score</p>
               <div id="reliability-score" class="score-card hero-score hidden">Reliability Score: 0%</div>
@@ -137,11 +161,11 @@
 
             <section class="panel side-panel">
               <p class="section-kicker">Control Surface</p>
-              <h2>How this engine evaluates</h2>
+              <h2>Why this system feels real</h2>
               <ul class="info-list">
-                <li>Runs each test 3 times to detect unstable behavior.</li>
-                <li>Calculates similarity-based consistency score.</li>
-                <li>Explains why a failure is wrong or unreliable.</li>
+                <li>Shows why the answer is unreliable, not only that it failed.</li>
+                <li>Highlights the risky fragment directly in the model response.</li>
+                <li>Turns repeated outputs into confidence and alert signals.</li>
               </ul>
             </section>
           </aside>
@@ -152,7 +176,7 @@
             <div>
               <p class="section-kicker">Results</p>
               <h2>Failure Intelligence</h2>
-              <p>Every case shows status, reason, explanation, and consistency score.</p>
+              <p>Every case shows status, reason, explanation, flags, and confidence.</p>
             </div>
           </div>
           <div id="mode-notice" class="mode-notice hidden"></div>
