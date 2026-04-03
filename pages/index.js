@@ -243,12 +243,13 @@ export default function Home() {
           position: relative;
           min-height: 100vh;
           overflow: hidden;
+          width: 100%;
           background:
             radial-gradient(circle at top left, rgba(67, 56, 202, 0.12), transparent 26%),
             radial-gradient(circle at 85% 8%, rgba(6, 182, 212, 0.12), transparent 18%),
             linear-gradient(180deg, #03050a 0%, #070b14 100%);
           color: #eef2ff;
-          padding: 28px 16px 72px;
+          padding: 0 0 72px;
           font-family:
             Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
             sans-serif;
@@ -303,9 +304,10 @@ export default function Home() {
 
         .shell {
           position: relative;
-          max-width: 1420px;
+          width: min(100%, 1460px);
           margin: 0 auto;
           z-index: 1;
+          padding: 28px 20px 0;
         }
 
         .heroRow {
@@ -407,11 +409,11 @@ export default function Home() {
 
         .focusOrb {
           position: absolute;
-          width: 210px;
-          height: 210px;
+          width: 188px;
+          height: 188px;
           border-radius: 50%;
-          right: -24px;
-          top: -94px;
+          right: 34px;
+          top: -36px;
           background: radial-gradient(circle at 32% 32%, #9be9ff 0%, #1cb6d9 42%, #082439 100%);
           box-shadow:
             inset -22px -26px 48px rgba(6, 12, 23, 0.58),
@@ -753,6 +755,17 @@ export default function Home() {
 
           .focusCard {
             min-height: 160px;
+          }
+
+          .shell {
+            padding-inline: 12px;
+          }
+
+          .focusOrb {
+            width: 150px;
+            height: 150px;
+            right: 18px;
+            top: -26px;
           }
         }
       `}</style>
