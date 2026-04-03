@@ -96,7 +96,7 @@ export default function Home() {
         <section className="heroRow">
           <div className="heroCopy">
             <p className="eyebrow">AI Reliability Engine</p>
-            <h1>Black-box AI. Bright failure signals.</h1>
+            <h1>Reli-AI Bright failure signals</h1>
             <p className="subtext">
               Generate an answer, run a second-pass reliability evaluation, and expose the exact text
               that may be wrong, unsafe, or misleading.
@@ -363,10 +363,11 @@ export default function Home() {
         }
 
         h1 {
-          font-size: clamp(2.4rem, 4.8vw, 4.9rem);
-          line-height: 0.95;
+          font-size: clamp(2rem, 3.6vw, 3.6rem);
+          line-height: 1;
           letter-spacing: -0.05em;
           margin: 0 0 14px;
+          max-width: 10ch;
         }
 
         .subtext {
@@ -413,9 +414,9 @@ export default function Home() {
 
         .focusCard {
           position: relative;
-          min-height: 182px;
+          min-height: 230px;
           border-radius: 34px;
-          padding: 24px 26px;
+          padding: 26px;
           overflow: hidden;
         }
 
@@ -436,15 +437,16 @@ export default function Home() {
           max-width: 220px;
           font-size: 2rem;
           line-height: 1.15;
+          margin-top: 94px;
         }
 
         .focusOrb {
           position: absolute;
-          width: 188px;
-          height: 188px;
+          width: 150px;
+          height: 150px;
           border-radius: 50%;
-          right: 34px;
-          top: -36px;
+          right: 28px;
+          top: 28px;
           background: radial-gradient(circle at 32% 32%, #9be9ff 0%, #1cb6d9 42%, #082439 100%);
           box-shadow:
             inset -22px -26px 48px rgba(6, 12, 23, 0.58),
@@ -790,7 +792,7 @@ export default function Home() {
           }
 
           .focusCard {
-            min-height: 160px;
+            min-height: 190px;
           }
 
           .shell {
@@ -798,10 +800,14 @@ export default function Home() {
           }
 
           .focusOrb {
-            width: 150px;
-            height: 150px;
+            width: 118px;
+            height: 118px;
             right: 18px;
-            top: -26px;
+            top: 18px;
+          }
+
+          .focusCard strong {
+            margin-top: 70px;
           }
         }
       `}</style>
