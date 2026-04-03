@@ -307,7 +307,7 @@ export default function Home() {
           width: min(100%, 1460px);
           margin: 0 auto;
           z-index: 1;
-          padding: 28px 20px 0;
+          padding: 22px 20px 0;
         }
 
         .heroRow {
@@ -315,7 +315,8 @@ export default function Home() {
           grid-template-columns: minmax(0, 1fr) 360px;
           gap: 26px;
           align-items: end;
-          margin-bottom: 28px;
+          min-height: calc(100vh - 420px);
+          margin-bottom: 18px;
         }
 
         .heroCopy {
@@ -350,7 +351,7 @@ export default function Home() {
           display: flex;
           flex-wrap: wrap;
           gap: 14px;
-          margin-top: 22px;
+          margin-top: 18px;
         }
 
         .heroChips span,
@@ -423,8 +424,8 @@ export default function Home() {
 
         .promptCard {
           border-radius: 30px;
-          padding: 28px 28px 24px;
-          margin-bottom: 24px;
+          padding: 24px 28px 22px;
+          margin-bottom: 18px;
         }
 
         .label,
@@ -467,7 +468,7 @@ export default function Home() {
           display: flex;
           gap: 16px;
           flex-wrap: wrap;
-          margin-top: 24px;
+          margin-top: 20px;
         }
 
         button {
@@ -512,11 +513,12 @@ export default function Home() {
           display: grid;
           grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.7fr);
           gap: 20px;
+          align-items: start;
         }
 
         .sideStack {
           display: grid;
-          gap: 20px;
+          gap: 16px;
           align-content: start;
         }
 
@@ -530,7 +532,7 @@ export default function Home() {
           justify-content: space-between;
           align-items: flex-start;
           gap: 16px;
-          margin-bottom: 22px;
+          margin-bottom: 18px;
         }
 
         .scoreBlock,
@@ -585,13 +587,13 @@ export default function Home() {
         }
 
         .sectionBlock + .sectionBlock {
-          margin-top: 18px;
+          margin-top: 14px;
         }
 
         .twoCol {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 18px;
+          gap: 16px;
         }
 
         .responseBox {
@@ -734,6 +736,10 @@ export default function Home() {
           .resultsGrid,
           .twoCol {
             grid-template-columns: 1fr;
+          }
+
+          .heroRow {
+            min-height: auto;
           }
         }
 
