@@ -347,22 +347,23 @@ export default function Home() {
         .heroChips {
           display: flex;
           flex-wrap: wrap;
-          gap: 12px;
-          margin-top: 24px;
+          gap: 14px;
+          margin-top: 22px;
         }
 
         .heroChips span,
         .secondary {
           display: inline-flex;
           align-items: center;
-          min-height: 52px;
-          padding: 0 18px;
+          min-height: 50px;
+          padding: 0 20px;
           border-radius: 999px;
           border: 1px solid rgba(255, 255, 255, 0.08);
           background: rgba(255, 255, 255, 0.045);
-          color: #dde6fb;
-          font-size: 0.95rem;
-          font-weight: 600;
+          color: #e1e8f9;
+          font-size: 0.94rem;
+          font-weight: 500;
+          letter-spacing: -0.01em;
           box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.015);
         }
 
@@ -379,9 +380,9 @@ export default function Home() {
 
         .focusCard {
           position: relative;
-          min-height: 190px;
-          border-radius: 32px;
-          padding: 26px;
+          min-height: 182px;
+          border-radius: 34px;
+          padding: 24px 26px;
           overflow: hidden;
         }
 
@@ -419,8 +420,8 @@ export default function Home() {
         }
 
         .promptCard {
-          border-radius: 28px;
-          padding: 28px;
+          border-radius: 30px;
+          padding: 28px 28px 24px;
           margin-bottom: 24px;
         }
 
@@ -441,11 +442,12 @@ export default function Home() {
           border: 1px solid rgba(255, 255, 255, 0.08);
           background: #040913;
           color: #eef2ff;
-          border-radius: 24px;
-          padding: 22px 24px;
+          border-radius: 26px;
+          padding: 22px 22px;
           font: inherit;
           font-size: 1.05rem;
-          resize: vertical;
+          line-height: 1.65;
+          resize: none;
           transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
@@ -461,9 +463,9 @@ export default function Home() {
 
         .actions {
           display: flex;
-          gap: 14px;
+          gap: 16px;
           flex-wrap: wrap;
-          margin-top: 26px;
+          margin-top: 24px;
         }
 
         button {
@@ -481,10 +483,13 @@ export default function Home() {
 
         .primary {
           min-height: 60px;
-          padding: 0 28px;
+          padding: 0 20px;
           background: linear-gradient(135deg, #eef2ff, #b8c7ff 58%, #67d6ff);
           color: #101828;
           box-shadow: 0 16px 34px rgba(103, 214, 255, 0.18);
+          font-size: 0.99rem;
+          font-weight: 700;
+          letter-spacing: -0.02em;
         }
 
         .secondary {
