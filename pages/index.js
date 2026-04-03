@@ -239,27 +239,41 @@ export default function Home() {
       </div>
 
       <style jsx global>{`
+        * {
+          box-sizing: border-box;
+        }
+
         html,
         body,
         #__next {
           margin: 0;
           padding: 0;
           min-height: 100%;
+          height: 100%;
           width: 100%;
-          background: #03050a;
+          min-width: 100vw;
+          background: #03050a !important;
         }
 
         body {
           overflow-x: hidden;
+          background: #03050a !important;
+        }
+
+        #__next {
+          display: block;
+          background: #03050a !important;
         }
       `}</style>
 
       <style jsx>{`
         .page {
+          display: block;
           position: relative;
           min-height: 100vh;
           overflow: hidden;
           width: 100%;
+          min-width: 100vw;
           background:
             radial-gradient(circle at top left, rgba(67, 56, 202, 0.12), transparent 26%),
             radial-gradient(circle at 85% 8%, rgba(6, 182, 212, 0.12), transparent 18%),
