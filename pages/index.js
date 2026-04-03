@@ -238,6 +238,22 @@ export default function Home() {
         ) : null}
       </div>
 
+      <style jsx global>{`
+        html,
+        body,
+        #__next {
+          margin: 0;
+          padding: 0;
+          min-height: 100%;
+          width: 100%;
+          background: #03050a;
+        }
+
+        body {
+          overflow-x: hidden;
+        }
+      `}</style>
+
       <style jsx>{`
         .page {
           position: relative;
