@@ -1,4 +1,5 @@
-﻿import { useMemo, useState } from "react";
+import Head from "next/head";
+import { useMemo, useState } from "react";
 
 const DEMOS = {
   hallucination: "What is the capital of Australia?",
@@ -87,730 +88,931 @@ export default function Home() {
   }
 
   return (
-    <main className={`page ${isHighRisk ? "alertMode" : ""}`}>
-      <div className="ambient ambientOne" />
-      <div className="ambient ambientTwo" />
-      <div className="grid" />
+    <>
+      <Head>
+        <title>STABLE - AI Reliability Engine</title>
+        <meta
+          name="description"
+          content="Detect when your AI gives wrong or risky answers with STABLE AI Reliability Engine."
+        />
+      </Head>
 
-      <div className="shell">
-        <section className="heroRow">
-          <div className="heroCopy">
-            <p className="eyebrow">AI Reliability Engine</p>
-            <h1>Reli-AI Bright failure signals</h1>
-            <p className="subtext">
-              Generate an answer, run a second-pass reliability evaluation, and expose the exact text
-              that may be wrong, unsafe, or misleading.
-            </p>
-            <div className="heroChips">
-              <span>Hallucination detection</span>
-              <span>Unsafe output review</span>
-              <span>Fact-check style analysis</span>
+      <main className={`page ${isHighRisk ? "alertMode" : ""}`}>
+        <div className="backgroundGlow glowLeft" />
+        <div className="backgroundGlow glowRight" />
+        <div className="grid" />
+
+        <div className="shell">
+          <header className="topBar">
+            <div className="brandLockup">
+              <div className="brandBadge">
+                <img src="/brand/stable-logo.png" alt="STABLE logo" className="brandLogo" />
+              </div>
+              <div>
+                <p className="eyebrow">STABLE - AI Reliability Engine</p>
+                <p className="brandCaption">Production-grade failure detection for risky AI outputs</p>
+              </div>
             </div>
-          </div>
 
-          <div className="focusCard">
-            <div className="focusOrb" />
-            <p>Failure Focus</p>
-            <strong>Highlight risky text instantly</strong>
-          </div>
-        </section>
+            <div className="statusStrip">
+              <span className="statusDot" />
+              OpenRouter connected analysis flow
+            </div>
+          </header>
 
-        <section className="promptCard">
-          <label className="label" htmlFor="prompt">
-            Prompt
-          </label>
-          <textarea
-            id="prompt"
-            rows={5}
-            value={prompt}
-            onChange={(event) => setPrompt(event.target.value)}
-            placeholder="Ask the AI something that might go wrong..."
-          />
+          <section className="heroRow">
+            <div className="heroCopy">
+              <h1>Detect when your AI gives wrong or risky answers</h1>
+              <p className="subtext">
+                Generate an answer, run a second-pass evaluator, and surface the exact phrase that may be
+                unreliable, unsafe, or factually weak before it reaches real users.
+              </p>
 
-          <div className="actions">
-            <button className="primary" onClick={() => analyzePrompt()} disabled={loading}>
-              {loading ? "Analyzing..." : "Analyze"}
-            </button>
-            <button className="secondary" onClick={() => loadDemo("hallucination")} disabled={loading}>
-              Test hallucination
-            </button>
-            <button className="secondary" onClick={() => loadDemo("unsafe")} disabled={loading}>
-              Test unsafe output
-            </button>
-            <button className="secondary" onClick={() => loadDemo("wrongFact")} disabled={loading}>
-              Test wrong fact
-            </button>
-          </div>
-
-          {error ? <p className="error">{error}</p> : null}
-        </section>
-
-        {result ? (
-          <section className="resultsGrid">
-            <section className="card resultCard">
-              <div className="scoreRow">
-                <div className="scoreBlock">
-                  <p className="mutedLabel">Confidence Score</p>
-                  <div className="score">{result.analysis.score}</div>
-                </div>
-                <div className="riskBlock">
-                  <p className="mutedLabel">Risk Level</p>
-                  <div className={`pill pill${result.analysis.risk_level}`}>{result.analysis.risk_level}</div>
-                  <p className="riskCaption">
-                    {isHighRisk
-                      ? "Alert state active. Review before any real-world use."
-                      : "Monitor the highlighted fragment and explanation."}
-                  </p>
-                </div>
+              <div className="heroChips">
+                <span>Response verification</span>
+                <span>Hallucination review</span>
+                <span>Risk classification</span>
               </div>
 
-              <div className="sectionBlock">
-                <p className="mutedLabel">AI Response</p>
-                <div className="responseBox">
-                  <HighlightedText
-                    text={result.aiResponse}
-                    highlight={result.analysis.highlighted_error}
-                  />
+              <div className="metricRow">
+                <div className="metricCard">
+                  <span>Detection focus</span>
+                  <strong>Wrong facts, unsafe advice, hidden failure patterns</strong>
+                </div>
+                <div className="metricCard">
+                  <span>Output style</span>
+                  <strong>Clear highlights, confidence score, investor-ready reliability signal</strong>
                 </div>
               </div>
+            </div>
 
-              <div className="twoCol">
-                <div className="sectionBlock">
-                  <p className="mutedLabel">Issues</p>
-                  <ul className="issuesList">
-                    {result.analysis.issues.map((issue) => (
-                      <li key={issue}>{issue}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="sectionBlock">
-                  <p className="mutedLabel">Explanation</p>
-                  <p className="explanation">{result.analysis.explanation}</p>
-                </div>
+            <div className="visualCard">
+              <div className="visualTop">
+                <span className="visualLabel">Reliability signal</span>
+                <span className="visualMini">Live trace</span>
               </div>
-            </section>
 
-            <section className="sideStack">
-              <section className="card modelCard">
-                <p className="mutedLabel">AI Model Status</p>
-                <div className="modelSurface">
-                  <div className="modelCore" />
-                  <div className="modelHalo" />
-                </div>
-                <div className="statusGrid">
-                  <div className="statusTile">
-                    <span>Generator</span>
-                    <strong>OpenRouter free route</strong>
-                  </div>
-                  <div className="statusTile">
-                    <span>Evaluator</span>
-                    <strong>Second-pass reliability analysis</strong>
-                  </div>
-                  <div className="statusTile">
-                    <span>Failure trace</span>
-                    <strong>{result.analysis.highlighted_error ? "Located" : "Not detected"}</strong>
-                  </div>
-                  <div className="statusTile">
-                    <span>Alert mode</span>
-                    <strong>{isHighRisk ? "Elevated" : "Normal"}</strong>
-                  </div>
-                </div>
-              </section>
+              <div className="visualStage">
+                <div className="haloRing ringOne" />
+                <div className="haloRing ringTwo" />
+                <div className="coreSphere" />
+                <div className="signalBeam" />
+              </div>
 
-              <section className="card sideCard">
-                <p className="mutedLabel">Recent Checks</p>
-                {recentChecks.length === 0 ? (
-                  <p className="muted">No recent analyses yet.</p>
-                ) : (
-                  <div className="recentList">
-                    {recentChecks.map((check, index) => (
-                      <div className="recentItem" key={`${check.prompt}-${index}`}>
-                        <strong>{check.prompt}</strong>
-                        <span>{check.analysis.risk_level} risk</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </section>
-            </section>
+              <div className="visualFooter">
+                <div>
+                  <p>Failure focus</p>
+                  <strong>Highlight risky text instantly</strong>
+                </div>
+                <img src="/brand/stable-logo.png" alt="STABLE wordmark" className="miniLogo" />
+              </div>
+            </div>
           </section>
-        ) : null}
-      </div>
 
-      <style jsx global>{`
-        * {
-          box-sizing: border-box;
-        }
-
-        html,
-        body,
-        #__next {
-          margin: 0;
-          padding: 0;
-          min-height: 100%;
-          height: 100%;
-          width: 100%;
-          min-width: 100vw;
-          background: #03050a !important;
-        }
-
-        body {
-          overflow-x: hidden;
-          background: #03050a !important;
-        }
-
-        #__next {
-          display: block;
-          background: #03050a !important;
-        }
-      `}</style>
-
-      <style jsx>{`
-        .page {
-          display: block;
-          position: relative;
-          min-height: 100vh;
-          overflow: hidden;
-          width: 100%;
-          min-width: 100vw;
-          background:
-            radial-gradient(circle at top left, rgba(67, 56, 202, 0.12), transparent 26%),
-            radial-gradient(circle at 85% 8%, rgba(6, 182, 212, 0.12), transparent 18%),
-            linear-gradient(180deg, #03050a 0%, #070b14 100%);
-          color: #eef2ff;
-          padding: 0 0 72px;
-          font-family:
-            Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-            sans-serif;
-          transition: background 0.35s ease;
-        }
-
-        .alertMode {
-          background:
-            radial-gradient(circle at top left, rgba(220, 38, 38, 0.14), transparent 24%),
-            radial-gradient(circle at 85% 8%, rgba(248, 113, 113, 0.1), transparent 18%),
-            linear-gradient(180deg, #080202 0%, #120607 100%);
-        }
-
-        .ambient,
-        .grid {
-          pointer-events: none;
-        }
-
-        .ambient {
-          position: fixed;
-          border-radius: 999px;
-          filter: blur(48px);
-          animation: ambientFloat 18s ease-in-out infinite;
-        }
-
-        .ambientOne {
-          width: 340px;
-          height: 340px;
-          background: rgba(79, 70, 229, 0.15);
-          top: -80px;
-          left: -90px;
-        }
-
-        .ambientTwo {
-          width: 300px;
-          height: 300px;
-          background: rgba(34, 211, 238, 0.12);
-          top: 40px;
-          right: -70px;
-          animation-duration: 22s;
-        }
-
-        .grid {
-          position: fixed;
-          inset: 0;
-          background-image:
-            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-          background-size: 62px 62px;
-          mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.72), transparent 92%);
-        }
-
-        .shell {
-          position: relative;
-          width: min(100%, 1460px);
-          margin: 0 auto;
-          z-index: 1;
-          padding: 22px 20px 0;
-        }
-
-        .heroRow {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) 360px;
-          gap: 26px;
-          align-items: end;
-          min-height: calc(100vh - 420px);
-          margin-bottom: 18px;
-        }
-
-        .heroCopy {
-          max-width: 860px;
-        }
-
-        .eyebrow {
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          color: #7dd3fc;
-          margin: 0 0 10px;
-        }
-
-        h1 {
-          font-size: clamp(2rem, 3.6vw, 3.6rem);
-          line-height: 1;
-          letter-spacing: -0.05em;
-          margin: 0 0 14px;
-          max-width: 10ch;
-        }
-
-        .subtext {
-          margin: 0;
-          color: #99a8c8;
-          max-width: 760px;
-          line-height: 1.8;
-          font-size: 1rem;
-        }
-
-        .heroChips {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 14px;
-          margin-top: 18px;
-        }
-
-        .heroChips span,
-        .secondary {
-          display: inline-flex;
-          align-items: center;
-          min-height: 50px;
-          padding: 0 20px;
-          border-radius: 999px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          background: rgba(255, 255, 255, 0.045);
-          color: #e1e8f9;
-          font-size: 0.94rem;
-          font-weight: 500;
-          letter-spacing: -0.01em;
-          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.015);
-        }
-
-        .focusCard,
-        .promptCard,
-        .card {
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018)),
-            rgba(11, 15, 24, 0.94);
-          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
-          backdrop-filter: blur(14px);
-        }
-
-        .focusCard {
-          position: relative;
-          min-height: 230px;
-          border-radius: 34px;
-          padding: 26px;
-          overflow: hidden;
-        }
-
-        .focusCard p {
-          margin: 0 0 8px;
-          color: #8ca3d4;
-          font-size: 0.78rem;
-          text-transform: uppercase;
-          letter-spacing: 0.12em;
-          position: relative;
-          z-index: 1;
-        }
-
-        .focusCard strong {
-          position: relative;
-          z-index: 1;
-          display: block;
-          max-width: 220px;
-          font-size: 2rem;
-          line-height: 1.15;
-          margin-top: 94px;
-        }
-
-        .focusOrb {
-          position: absolute;
-          width: 150px;
-          height: 150px;
-          border-radius: 50%;
-          right: 28px;
-          top: 28px;
-          background: radial-gradient(circle at 32% 32%, #9be9ff 0%, #1cb6d9 42%, #082439 100%);
-          box-shadow:
-            inset -22px -26px 48px rgba(6, 12, 23, 0.58),
-            0 0 42px rgba(34, 211, 238, 0.18);
-          animation: orbFloat 12s ease-in-out infinite;
-        }
-
-        .promptCard {
-          border-radius: 30px;
-          padding: 24px 28px 22px;
-          margin-bottom: 18px;
-        }
-
-        .label,
-        .mutedLabel {
-          display: block;
-          font-size: 0.82rem;
-          font-weight: 800;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: #8091b5;
-          margin-bottom: 14px;
-        }
-
-        textarea {
-          width: 100%;
-          min-height: 204px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          background: #040913;
-          color: #eef2ff;
-          border-radius: 26px;
-          padding: 22px 22px;
-          font: inherit;
-          font-size: 1.05rem;
-          line-height: 1.65;
-          resize: none;
-          transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        textarea:focus {
-          outline: none;
-          border-color: rgba(125, 211, 252, 0.36);
-          box-shadow: 0 0 0 4px rgba(125, 211, 252, 0.08);
-        }
-
-        textarea::placeholder {
-          color: #7181a4;
-        }
-
-        .actions {
-          display: flex;
-          gap: 16px;
-          flex-wrap: wrap;
-          margin-top: 20px;
-        }
-
-        button {
-          border: 0;
-          border-radius: 999px;
-          font: inherit;
-          font-weight: 700;
-          cursor: pointer;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        button:hover {
-          transform: translateY(-1px);
-        }
-
-        .primary {
-          min-height: 60px;
-          padding: 0 20px;
-          background: linear-gradient(135deg, #eef2ff, #b8c7ff 58%, #67d6ff);
-          color: #101828;
-          box-shadow: 0 16px 34px rgba(103, 214, 255, 0.18);
-          font-size: 0.99rem;
-          font-weight: 700;
-          letter-spacing: -0.02em;
-        }
-
-        .secondary {
-          background: rgba(255, 255, 255, 0.05);
-        }
-
-        button:disabled {
-          opacity: 0.65;
-          cursor: not-allowed;
-        }
-
-        .error {
-          color: #fda4af;
-          margin: 14px 0 0;
-        }
-
-        .resultsGrid {
-          display: grid;
-          grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.7fr);
-          gap: 20px;
-          align-items: start;
-        }
-
-        .sideStack {
-          display: grid;
-          gap: 16px;
-          align-content: start;
-        }
-
-        .card {
-          border-radius: 24px;
-          padding: 22px;
-        }
-
-        .scoreRow {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: 16px;
-          margin-bottom: 18px;
-        }
-
-        .scoreBlock,
-        .riskBlock {
-          padding: 18px;
-          border-radius: 20px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .score {
-          font-size: 4rem;
-          font-weight: 800;
-          line-height: 0.95;
-          letter-spacing: -0.05em;
-        }
-
-        .pill {
-          display: inline-flex;
-          align-items: center;
-          min-height: 42px;
-          padding: 0 14px;
-          border-radius: 999px;
-          font-weight: 700;
-        }
-
-        .pillLow {
-          background: rgba(34, 197, 94, 0.14);
-          color: #86efac;
-        }
-
-        .pillMedium {
-          background: rgba(250, 204, 21, 0.14);
-          color: #fde68a;
-        }
-
-        .pillHigh {
-          background: rgba(248, 113, 113, 0.16);
-          color: #fecaca;
-          box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.12) inset;
-        }
-
-        .riskCaption {
-          margin: 10px 0 0;
-          color: #91a2c3;
-          line-height: 1.6;
-          max-width: 240px;
-        }
-
-        .alertMode .riskCaption {
-          color: #fecaca;
-        }
-
-        .sectionBlock + .sectionBlock {
-          margin-top: 14px;
-        }
-
-        .twoCol {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 16px;
-        }
-
-        .responseBox {
-          border-radius: 18px;
-          background: #040913;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          padding: 18px;
-          line-height: 1.9;
-          color: #edf3ff;
-        }
-
-        .responseBox :global(mark) {
-          background: rgba(248, 113, 113, 0.22);
-          color: #fecaca;
-          padding: 0 4px;
-          border-radius: 6px;
-          font-weight: 700;
-        }
-
-        .issuesList {
-          margin: 0;
-          padding-left: 18px;
-          color: #c8d3ea;
-        }
-
-        .issuesList li + li {
-          margin-top: 8px;
-        }
-
-        .explanation,
-        .muted {
-          margin: 0;
-          color: #a5b4d4;
-          line-height: 1.8;
-        }
-
-        .modelCard {
-          background:
-            radial-gradient(circle at center, rgba(110, 231, 255, 0.06), transparent 40%),
-            linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
-            rgba(11, 15, 24, 0.94);
-        }
-
-        .modelSurface {
-          position: relative;
-          height: 170px;
-          border-radius: 20px;
-          background: radial-gradient(circle at center, rgba(255, 255, 255, 0.04), transparent 58%);
-          overflow: hidden;
-          margin-bottom: 18px;
-        }
-
-        .modelCore,
-        .modelHalo {
-          position: absolute;
-          inset: 50%;
-          border-radius: 50%;
-          transform: translate(-50%, -50%);
-        }
-
-        .modelCore {
-          width: 92px;
-          height: 92px;
-          background:
-            radial-gradient(circle at 32% 28%, #f4f9ff 0%, #60a5fa 38%, #111827 100%);
-          box-shadow:
-            inset -12px -18px 34px rgba(8, 12, 20, 0.6),
-            0 0 28px rgba(96, 165, 250, 0.25);
-          animation: orbFloat 10s ease-in-out infinite;
-        }
-
-        .modelHalo {
-          width: 160px;
-          height: 160px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          animation: pulse 5s ease-in-out infinite;
-        }
-
-        .statusGrid,
-        .recentList {
-          display: grid;
-          gap: 12px;
-        }
-
-        .statusTile,
-        .recentItem {
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-          padding: 14px;
-          border-radius: 16px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .statusTile strong,
-        .recentItem strong {
-          font-size: 0.98rem;
-        }
-
-        .statusTile span,
-        .recentItem span {
-          color: #90a0c1;
-        }
-
-        @keyframes orbFloat {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0);
-          }
-          50% {
-            transform: translate3d(10px, -12px, 0);
-          }
-        }
-
-        @keyframes ambientFloat {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0);
-          }
-          50% {
-            transform: translate3d(18px, -10px, 0);
-          }
-        }
-
-        @keyframes pulse {
-          0%,
-          100% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0.7;
-          }
-          50% {
-            transform: translate(-50%, -50%) scale(1.06);
-            opacity: 1;
-          }
-        }
-
-        @media (max-width: 980px) {
-          .heroRow,
-          .resultsGrid,
-          .twoCol {
-            grid-template-columns: 1fr;
+          <section className="promptCard">
+            <label className="label" htmlFor="prompt">
+              Prompt
+            </label>
+            <textarea
+              id="prompt"
+              rows={6}
+              value={prompt}
+              onChange={(event) => setPrompt(event.target.value)}
+              placeholder="Ask the AI something that might go wrong..."
+            />
+
+            <div className="actions">
+              <button className="primary" onClick={() => analyzePrompt()} disabled={loading}>
+                {loading ? "Analyzing..." : "Analyze"}
+              </button>
+              <button className="secondary" onClick={() => loadDemo("hallucination")} disabled={loading}>
+                Test hallucination
+              </button>
+              <button className="secondary" onClick={() => loadDemo("unsafe")} disabled={loading}>
+                Test unsafe output
+              </button>
+              <button className="secondary" onClick={() => loadDemo("wrongFact")} disabled={loading}>
+                Test wrong fact
+              </button>
+            </div>
+
+            {error ? <p className="error">{error}</p> : null}
+          </section>
+
+          {result ? (
+            <section className="resultsGrid">
+              <section className="card resultCard">
+                <div className="scoreRow">
+                  <div className="scoreBlock">
+                    <p className="mutedLabel">Confidence Score</p>
+                    <div className="score">{result.analysis.score}</div>
+                    <p className="scoreNote">Confidence in answer reliability after secondary evaluation</p>
+                  </div>
+
+                  <div className="riskBlock">
+                    <p className="mutedLabel">Risk Level</p>
+                    <div className={`pill pill${result.analysis.risk_level}`}>{result.analysis.risk_level}</div>
+                    <p className="riskCaption">
+                      {isHighRisk
+                        ? "High-risk answer detected. Review the marked phrase before using this output."
+                        : "The evaluator found manageable risk. Inspect the marked fragment and issues below."}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="sectionBlock">
+                  <p className="mutedLabel">AI Response</p>
+                  <div className="responseBox">
+                    <HighlightedText
+                      text={result.aiResponse}
+                      highlight={result.analysis.highlighted_error}
+                    />
+                  </div>
+                </div>
+
+                <div className="twoCol">
+                  <div className="sectionBlock">
+                    <p className="mutedLabel">Issues</p>
+                    <ul className="issuesList">
+                      {result.analysis.issues.map((issue) => (
+                        <li key={issue}>{issue}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="sectionBlock">
+                    <p className="mutedLabel">Explanation</p>
+                    <p className="explanation">{result.analysis.explanation}</p>
+                  </div>
+                </div>
+              </section>
+
+              <section className="sideStack">
+                <section className="card modelCard">
+                  <p className="mutedLabel">Analysis Pipeline</p>
+                  <div className="statusGrid">
+                    <div className="statusTile">
+                      <span>Provider</span>
+                      <strong>OpenRouter</strong>
+                    </div>
+                    <div className="statusTile">
+                      <span>Generation pass</span>
+                      <strong>Model answer created from your prompt</strong>
+                    </div>
+                    <div className="statusTile">
+                      <span>Evaluation pass</span>
+                      <strong>Structured reliability review with highlighted failure text</strong>
+                    </div>
+                    <div className="statusTile">
+                      <span>Current state</span>
+                      <strong>{isHighRisk ? "Alert raised" : "System stable"}</strong>
+                    </div>
+                  </div>
+                </section>
+
+                <section className="card sideCard">
+                  <p className="mutedLabel">Recent Checks</p>
+                  {recentChecks.length === 0 ? (
+                    <p className="muted">No recent analyses yet.</p>
+                  ) : (
+                    <div className="recentList">
+                      {recentChecks.map((check, index) => (
+                        <div className="recentItem" key={`${check.prompt}-${index}`}>
+                          <strong>{check.prompt}</strong>
+                          <span>{check.analysis.risk_level} risk</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </section>
+              </section>
+            </section>
+          ) : null}
+        </div>
+
+        <style jsx global>{`
+          * {
+            box-sizing: border-box;
           }
 
-          .heroRow {
-            min-height: auto;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .actions,
-          .scoreRow {
-            flex-direction: column;
-          }
-
-          .heroChips {
-            flex-direction: column;
-          }
-
-          .secondary,
-          .primary {
+          html,
+          body,
+          #__next {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            height: 100%;
             width: 100%;
-            justify-content: center;
+            min-width: 100vw;
+            background: #050505 !important;
           }
 
-          .focusCard {
-            min-height: 190px;
+          body {
+            overflow-x: hidden;
+            background: #050505 !important;
+          }
+
+          #__next {
+            display: block;
+            background: #050505 !important;
+          }
+        `}</style>
+
+        <style jsx>{`
+          .page {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+            width: 100%;
+            min-width: 100vw;
+            background:
+              radial-gradient(circle at 12% 10%, rgba(255, 96, 61, 0.16), transparent 22%),
+              radial-gradient(circle at 82% 8%, rgba(255, 138, 76, 0.12), transparent 20%),
+              linear-gradient(180deg, #050505 0%, #0a0707 38%, #0c0808 100%);
+            color: #fff7f2;
+            padding: 0 0 72px;
+            font-family:
+              Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+              sans-serif;
+            transition: background 0.35s ease;
+          }
+
+          .alertMode {
+            background:
+              radial-gradient(circle at 12% 10%, rgba(255, 74, 43, 0.22), transparent 24%),
+              radial-gradient(circle at 82% 8%, rgba(255, 132, 79, 0.16), transparent 22%),
+              linear-gradient(180deg, #080303 0%, #140707 40%, #120505 100%);
+          }
+
+          .backgroundGlow,
+          .grid {
+            pointer-events: none;
+          }
+
+          .backgroundGlow {
+            position: fixed;
+            border-radius: 999px;
+            filter: blur(64px);
+            opacity: 0.9;
+            animation: ambientFloat 22s ease-in-out infinite;
+          }
+
+          .glowLeft {
+            width: 380px;
+            height: 380px;
+            background: rgba(255, 89, 50, 0.18);
+            top: -100px;
+            left: -100px;
+          }
+
+          .glowRight {
+            width: 340px;
+            height: 340px;
+            background: rgba(255, 157, 93, 0.14);
+            top: 10px;
+            right: -90px;
+            animation-duration: 26s;
+          }
+
+          .grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+              linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.74), transparent 94%);
           }
 
           .shell {
-            padding-inline: 12px;
+            position: relative;
+            width: min(100%, 1440px);
+            margin: 0 auto;
+            z-index: 1;
+            padding: 22px 20px 0;
           }
 
-          .focusOrb {
+          .topBar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 28px;
+          }
+
+          .brandLockup {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+          }
+
+          .brandBadge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 180px;
+            height: 68px;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+          }
+
+          .brandLogo {
+            width: 128px;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 10px 22px rgba(255, 92, 58, 0.22));
+          }
+
+          .eyebrow {
+            margin: 0 0 5px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #ff9d74;
+          }
+
+          .brandCaption {
+            margin: 0;
+            color: #bcaaa2;
+            font-size: 0.96rem;
+          }
+
+          .statusStrip {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 48px;
+            padding: 0 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.045);
+            color: #f6d1c3;
+            font-size: 0.92rem;
+            white-space: nowrap;
+          }
+
+          .statusDot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff6e45;
+            box-shadow: 0 0 0 6px rgba(255, 110, 69, 0.14);
+          }
+
+          .heroRow {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 430px;
+            gap: 28px;
+            align-items: stretch;
+            min-height: calc(100vh - 300px);
+            margin-bottom: 18px;
+          }
+
+          .heroCopy {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            max-width: 860px;
+            padding-bottom: 10px;
+          }
+
+          h1 {
+            margin: 0 0 16px;
+            max-width: 10.5ch;
+            font-size: clamp(2.5rem, 5vw, 5.4rem);
+            line-height: 0.95;
+            letter-spacing: -0.07em;
+            color: #fff4ef;
+          }
+
+          .subtext {
+            margin: 0;
+            max-width: 760px;
+            color: #c6b0a6;
+            line-height: 1.8;
+            font-size: 1.03rem;
+          }
+
+          .heroChips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 22px;
+          }
+
+          .heroChips span,
+          .secondary {
+            display: inline-flex;
+            align-items: center;
+            min-height: 50px;
+            padding: 0 20px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: #f8ddd1;
+            font-size: 0.94rem;
+            font-weight: 550;
+            letter-spacing: -0.01em;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+          }
+
+          .metricRow {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 22px;
+          }
+
+          .metricCard,
+          .visualCard,
+          .promptCard,
+          .card {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+              linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+              rgba(15, 10, 10, 0.95);
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+            backdrop-filter: blur(14px);
+          }
+
+          .metricCard {
+            padding: 18px 18px 20px;
+            border-radius: 22px;
+          }
+
+          .metricCard span {
+            display: block;
+            margin-bottom: 10px;
+            color: #ffae90;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+          }
+
+          .metricCard strong {
+            display: block;
+            color: #fff0ea;
+            line-height: 1.45;
+            font-size: 1rem;
+          }
+
+          .visualCard {
+            border-radius: 34px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+          }
+
+          .visualTop,
+          .visualFooter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+          }
+
+          .visualLabel,
+          .visualMini,
+          .visualFooter p {
+            color: #ffb394;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin: 0;
+          }
+
+          .visualMini {
+            color: #c8a99f;
+          }
+
+          .visualStage {
+            position: relative;
+            height: 310px;
+            margin: 18px 0 14px;
+            border-radius: 30px;
+            background:
+              radial-gradient(circle at 50% 40%, rgba(255, 122, 79, 0.1), transparent 36%),
+              linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+          }
+
+          .coreSphere,
+          .haloRing,
+          .signalBeam {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+          }
+
+          .coreSphere {
+            top: 66px;
+            width: 176px;
+            height: 176px;
+            border-radius: 50%;
+            background:
+              radial-gradient(circle at 34% 28%, #ffd7c7 0%, #ff8f61 26%, #ff5e3b 55%, #49150f 100%);
+            box-shadow:
+              inset -24px -30px 52px rgba(40, 8, 6, 0.62),
+              0 28px 58px rgba(255, 94, 59, 0.18),
+              0 0 0 1px rgba(255, 255, 255, 0.05);
+            animation: orbFloat 12s ease-in-out infinite;
+          }
+
+          .haloRing {
+            border-radius: 50%;
+            border: 1px solid rgba(255, 171, 134, 0.18);
+          }
+
+          .ringOne {
+            top: 42px;
+            width: 226px;
+            height: 226px;
+            animation: pulse 6s ease-in-out infinite;
+          }
+
+          .ringTwo {
+            top: 24px;
+            width: 272px;
+            height: 272px;
+            border-color: rgba(255, 217, 193, 0.08);
+            animation: pulse 8s ease-in-out infinite;
+          }
+
+          .signalBeam {
+            bottom: -24px;
+            width: 2px;
+            height: 158px;
+            background: linear-gradient(180deg, rgba(255, 176, 138, 0.9), rgba(255, 94, 59, 0));
+            box-shadow: 0 0 18px rgba(255, 120, 78, 0.24);
+          }
+
+          .visualFooter {
+            margin-top: auto;
+            align-items: flex-end;
+          }
+
+          .visualFooter strong {
+            display: block;
+            margin-top: 8px;
+            max-width: 220px;
+            font-size: 1.5rem;
+            line-height: 1.15;
+            color: #fff0e8;
+          }
+
+          .miniLogo {
             width: 118px;
-            height: 118px;
-            right: 18px;
-            top: 18px;
+            height: auto;
+            opacity: 0.92;
+            filter: drop-shadow(0 10px 24px rgba(255, 92, 58, 0.18));
           }
 
-          .focusCard strong {
-            margin-top: 70px;
+          .promptCard {
+            border-radius: 30px;
+            padding: 24px 28px 22px;
+            margin-bottom: 18px;
           }
-        }
-      `}</style>
-    </main>
+
+          .label,
+          .mutedLabel {
+            display: block;
+            margin-bottom: 14px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #ffad8c;
+          }
+
+          textarea {
+            width: 100%;
+            min-height: 210px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #070707;
+            color: #fff5f0;
+            border-radius: 28px;
+            padding: 22px;
+            font: inherit;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            resize: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+          }
+
+          textarea:focus {
+            outline: none;
+            border-color: rgba(255, 153, 112, 0.42);
+            box-shadow: 0 0 0 4px rgba(255, 122, 79, 0.1);
+          }
+
+          textarea::placeholder {
+            color: #8b6e66;
+          }
+
+          .actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+          }
+
+          button {
+            border: 0;
+            border-radius: 999px;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+          }
+
+          button:hover {
+            transform: translateY(-1px);
+          }
+
+          button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+          }
+
+          .primary {
+            min-height: 60px;
+            padding: 0 22px;
+            background: linear-gradient(135deg, #ffd4bf, #ff9668 42%, #ff5c3a 100%);
+            color: #2d0f09;
+            box-shadow: 0 18px 34px rgba(255, 94, 59, 0.24);
+            font-size: 1rem;
+          }
+
+          .secondary {
+            background: rgba(255, 255, 255, 0.05);
+          }
+
+          .error {
+            color: #ffb5a1;
+            margin: 14px 0 0;
+          }
+
+          .resultsGrid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+            gap: 20px;
+            align-items: start;
+          }
+
+          .sideStack {
+            display: grid;
+            gap: 16px;
+            align-content: start;
+          }
+
+          .card {
+            border-radius: 24px;
+            padding: 22px;
+          }
+
+          .scoreRow {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 16px;
+            margin-bottom: 18px;
+          }
+
+          .scoreBlock,
+          .riskBlock {
+            flex: 1;
+            padding: 18px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+          }
+
+          .score {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            color: #fff4ef;
+          }
+
+          .scoreNote,
+          .riskCaption {
+            margin: 10px 0 0;
+            color: #bfaaa0;
+            line-height: 1.65;
+          }
+
+          .alertMode .riskCaption {
+            color: #ffd1c3;
+          }
+
+          .pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 42px;
+            padding: 0 14px;
+            border-radius: 999px;
+            font-weight: 700;
+          }
+
+          .pillLow {
+            background: rgba(249, 115, 22, 0.14);
+            color: #fdba74;
+          }
+
+          .pillMedium {
+            background: rgba(251, 191, 36, 0.12);
+            color: #fde68a;
+          }
+
+          .pillHigh {
+            background: rgba(248, 113, 113, 0.16);
+            color: #fecaca;
+            box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.12) inset;
+          }
+
+          .sectionBlock + .sectionBlock {
+            margin-top: 14px;
+          }
+
+          .twoCol {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+          }
+
+          .responseBox {
+            border-radius: 20px;
+            background: #070707;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 18px;
+            line-height: 1.9;
+            color: #fff3ed;
+          }
+
+          .responseBox :global(mark) {
+            background: rgba(255, 94, 59, 0.2);
+            color: #ffd2c4;
+            padding: 0 4px;
+            border-radius: 6px;
+            font-weight: 700;
+            box-shadow: inset 0 0 0 1px rgba(255, 134, 101, 0.15);
+          }
+
+          .issuesList {
+            margin: 0;
+            padding-left: 18px;
+            color: #f0d5ca;
+          }
+
+          .issuesList li + li {
+            margin-top: 8px;
+          }
+
+          .explanation,
+          .muted {
+            margin: 0;
+            color: #c1aba2;
+            line-height: 1.8;
+          }
+
+          .statusGrid,
+          .recentList {
+            display: grid;
+            gap: 12px;
+          }
+
+          .statusTile,
+          .recentItem {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+          }
+
+          .statusTile strong,
+          .recentItem strong {
+            font-size: 0.98rem;
+            color: #fff1eb;
+          }
+
+          .statusTile span,
+          .recentItem span {
+            color: #c09f92;
+          }
+
+          @keyframes orbFloat {
+            0%,
+            100% {
+              transform: translateX(-50%) translate3d(0, 0, 0);
+            }
+            50% {
+              transform: translateX(-50%) translate3d(0, -10px, 0);
+            }
+          }
+
+          @keyframes ambientFloat {
+            0%,
+            100% {
+              transform: translate3d(0, 0, 0);
+            }
+            50% {
+              transform: translate3d(16px, -12px, 0);
+            }
+          }
+
+          @keyframes pulse {
+            0%,
+            100% {
+              transform: translateX(-50%) scale(1);
+              opacity: 0.72;
+            }
+            50% {
+              transform: translateX(-50%) scale(1.05);
+              opacity: 1;
+            }
+          }
+
+          @media (max-width: 1100px) {
+            .heroRow,
+            .resultsGrid,
+            .twoCol,
+            .metricRow {
+              grid-template-columns: 1fr;
+            }
+
+            .heroRow {
+              min-height: auto;
+            }
+          }
+
+          @media (max-width: 760px) {
+            .topBar,
+            .scoreRow,
+            .actions {
+              flex-direction: column;
+              align-items: stretch;
+            }
+
+            .brandLockup {
+              align-items: flex-start;
+            }
+
+            .statusStrip,
+            .secondary,
+            .primary {
+              width: 100%;
+              justify-content: center;
+            }
+
+            .heroChips {
+              flex-direction: column;
+            }
+
+            .visualCard {
+              padding: 18px;
+            }
+
+            .visualStage {
+              height: 270px;
+            }
+
+            .coreSphere {
+              width: 150px;
+              height: 150px;
+              top: 62px;
+            }
+
+            .ringOne {
+              width: 206px;
+              height: 206px;
+            }
+
+            .ringTwo {
+              width: 246px;
+              height: 246px;
+            }
+
+            .shell {
+              padding-inline: 12px;
+            }
+
+            h1 {
+              font-size: clamp(2.25rem, 13vw, 3.7rem);
+            }
+          }
+        `}</style>
+      </main>
+    </>
   );
 }
