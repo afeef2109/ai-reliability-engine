@@ -422,7 +422,10 @@ export default function Home() {
             width: 128px;
             height: auto;
             display: block;
-            filter: drop-shadow(0 10px 22px rgba(255, 92, 58, 0.22));
+            filter:
+              saturate(1.08)
+              contrast(1.04)
+              drop-shadow(0 12px 24px rgba(255, 92, 58, 0.24));
           }
 
           .eyebrow {
@@ -670,8 +673,11 @@ export default function Home() {
           .miniLogo {
             width: 118px;
             height: auto;
-            opacity: 0.92;
-            filter: drop-shadow(0 10px 24px rgba(255, 92, 58, 0.18));
+            opacity: 0.96;
+            filter:
+              saturate(1.06)
+              contrast(1.03)
+              drop-shadow(0 10px 24px rgba(255, 92, 58, 0.2));
           }
 
           .promptCard {
