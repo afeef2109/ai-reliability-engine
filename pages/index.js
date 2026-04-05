@@ -484,11 +484,12 @@ export default function Home() {
 
           h1 {
             margin: 0 0 16px;
-            max-width: 10.5ch;
-            font-size: clamp(2.5rem, 5vw, 5.4rem);
+            max-width: 13.2ch;
+            font-size: clamp(2.5rem, 4.7vw, 5.1rem);
             line-height: 0.95;
-            letter-spacing: -0.07em;
+            letter-spacing: -0.045em;
             color: #fff4ef;
+            text-wrap: balance;
           }
 
           .subtext {
@@ -1014,7 +1015,9 @@ export default function Home() {
             }
 
             h1 {
+              max-width: 100%;
               font-size: clamp(2.25rem, 13vw, 3.7rem);
+              letter-spacing: -0.04em;
             }
           }
         `}</style>
